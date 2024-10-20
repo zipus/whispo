@@ -1,7 +1,14 @@
 import { uIOhook, UiohookKey } from "uiohook-napi"
-import { getWindowRendererHandlers, showPanelWindow, showPanelWindowAndStartRecording, stopRecordingAndHidePanelWindow, WINDOWS } from "./window"
+import {
+  getWindowRendererHandlers,
+  showPanelWindow,
+  showPanelWindowAndStartRecording,
+  stopRecordingAndHidePanelWindow,
+  WINDOWS,
+} from "./window"
 import { systemPreferences } from "electron"
 import { configStore } from "./config"
+import { state } from "./state"
 
 export function listenToKeyboardEvents() {
   try {
@@ -26,19 +33,21 @@ export function listenToKeyboardEvents() {
     }
 
     uIOhook.on("keydown", (e) => {
-      if (configStore.get().shortcut === 'ctrl-backslash') {
-        if (e.keycode === UiohookKey.Backslash && e.ctrlKey) {
+      if (e.keycode === UiohookKey.Escape && state.isRecording) {
+        const win = WINDOWS.get("panel")
+        if (win) {
+          stopRecordingAndHidePanelWindow()
+        }
 
-          getWindowRendererHandlers('panel')?.startOrFinishRecording.send()
-        } else if (e.keycode === UiohookKey.Escape) {
-          const win = WINDOWS.get('panel')
-          if (win) {
-            stopRecordingAndHidePanelWindow()
-          }
+        return
+      }
+
+      if (configStore.get().shortcut === "ctrl-backslash") {
+        if (e.keycode === UiohookKey.Backslash && e.ctrlKey) {
+          getWindowRendererHandlers("panel")?.startOrFinishRecording.send()
         }
       } else {
         if (e.keycode === UiohookKey.Ctrl) {
-
           if (keysPressed.size > 0) {
             console.log("ignore ctrl because other keys are pressed")
             return
@@ -55,7 +64,6 @@ export function listenToKeyboardEvents() {
             console.log("start recording")
 
             showPanelWindowAndStartRecording()
-
           }, 800)
         } else {
           keysPressed.add(e.keycode)
@@ -72,7 +80,7 @@ export function listenToKeyboardEvents() {
     })
 
     uIOhook.on("keyup", (e) => {
-      if (configStore.get().shortcut === 'ctrl-backslash') return
+      if (configStore.get().shortcut === "ctrl-backslash") return
 
       cancelRecordingTimer()
 
@@ -81,16 +89,15 @@ export function listenToKeyboardEvents() {
       if (e.keycode === UiohookKey.Ctrl) {
         console.log("release ctrl")
         if (isHoldingCtrlKey) {
-          getWindowRendererHandlers('panel')?.finishRecording.send()
+          getWindowRendererHandlers("panel")?.finishRecording.send()
         } else {
           stopRecordingAndHidePanelWindow()
         }
 
         isHoldingCtrlKey = false
       }
-
     })
 
     uIOhook.start()
-  } catch { }
+  } catch {}
 }

@@ -2,6 +2,12 @@
 
 AI-powered dictation tool.
 
+## Download
+
+Currently building for macOS (Apple Silicon) and Windows x64.
+
+[Releases](https://github.com/egoist/whispo/releases/latest)
+
 ## Features
 
 - Hold `Ctrl` key to record your voice, release to transcribe it.

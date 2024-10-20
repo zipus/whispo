@@ -49,6 +49,7 @@ export function Component() {
 
     recorder.on("record-start", () => {
       setRecording(true)
+      tipcClient.recordEvent({ type: "start" })
     })
 
     recorder.on("visualizer-data", (rms) => {
@@ -66,6 +67,7 @@ export function Component() {
     recorder.on("record-end", (blob, duration) => {
       setRecording(false)
       setVisualizerData(() => getInitialVisualizerData())
+      tipcClient.recordEvent({ type: "end" })
 
       if (!isConfirmedRef.current) return
 

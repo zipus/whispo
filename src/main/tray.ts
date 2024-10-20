@@ -51,16 +51,23 @@ const buildMenu = (tray: Tray) =>
     },
   ])
 
+let _tray: Tray | undefined
+
+export const updateTrayIcon = () => {
+  if (!_tray) return
+
+  _tray.setImage(state.isRecording ? stopIcon : defaultIcon)
+}
+
 export const initTray = () => {
-  const tray = new Tray(defaultIcon)
+  const tray = (_tray = new Tray(defaultIcon))
 
   tray.on("click", () => {
     if (state.isRecording) {
-      state.isRecording = false
-      tray.setImage(defaultIcon)
       getWindowRendererHandlers("panel")?.finishRecording.send()
       return
     }
+
     tray.popUpContextMenu(buildMenu(tray))
   })
 

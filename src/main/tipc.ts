@@ -15,6 +15,8 @@ import { configStore, recordingsFolder } from "./config"
 import { Config, RecordingHistoryItem } from "../shared/types"
 import { RendererHandlers } from "./renderer-handlers"
 import { postProcessTranscript } from "./llm"
+import { state } from "./state"
+import { updateTrayIcon } from "./tray"
 
 const t = tipc.create()
 
@@ -249,6 +251,17 @@ export const router = {
     .input<{ config: Config }>()
     .action(async ({ input }) => {
       configStore.save(input.config)
+    }),
+
+  recordEvent: t.procedure
+    .input<{ type: "start" | "end" }>()
+    .action(async ({ input }) => {
+      if (input.type === "start") {
+        state.isRecording = true
+      } else {
+        state.isRecording = false
+      }
+      updateTrayIcon()
     }),
 }
 
