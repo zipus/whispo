@@ -8,6 +8,12 @@ Currently building for macOS (Apple Silicon) and Windows x64.
 
 [Releases](https://github.com/egoist/whispo/releases/latest)
 
+## Preview
+
+
+https://github.com/user-attachments/assets/2344a817-f36c-42b0-9ebc-cdd6e926b7a0
+
+
 ## Features
 
 - Hold `Ctrl` key to record your voice, release to transcribe it.
