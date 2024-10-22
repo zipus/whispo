@@ -1,6 +1,6 @@
 {
   "name": "whispo",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "module",
   "description": "AI powered dictation",
   "main": "./out/main/index.js",
