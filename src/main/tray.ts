@@ -8,8 +8,11 @@ import {
 } from "./window"
 import { state } from "./state"
 
-const defaultIcon = path.join(__dirname, "../../resources/trayIcon.png")
-const stopIcon = path.join(__dirname, "../../resources/stopTrayIcon.png")
+const defaultIcon = path.join(__dirname, "../../resources/trayIconTemplate.png")
+const stopIcon = path.join(
+  __dirname,
+  "../../resources/stopTrayIconTemplate.png",
+)
 
 const buildMenu = (tray: Tray) =>
   Menu.buildFromTemplate([
