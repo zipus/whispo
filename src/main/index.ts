@@ -3,6 +3,7 @@ import { electronApp, optimizer } from "@electron-toolkit/utils"
 import {
   createMainWindow,
   createPanelWindow,
+  createSetupWindow,
   makePanelWindowClosable,
   WINDOWS,
 } from "./window"
@@ -12,6 +13,7 @@ import { router } from "./tipc"
 import { registerServeProtocol, registerServeSchema } from "./serve"
 import { createAppMenu } from "./menu"
 import { initTray } from "./tray"
+import { isAccessibilityGranted } from "./utils"
 
 registerServeSchema()
 
@@ -22,7 +24,7 @@ app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId(process.env.APP_ID)
 
-  // app.setActivationPolicy("accessory")
+  const accessibilityGranted = isAccessibilityGranted()
 
   Menu.setApplicationMenu(createAppMenu())
 
@@ -30,7 +32,12 @@ app.whenReady().then(() => {
 
   registerServeProtocol()
 
-  createMainWindow()
+  if (accessibilityGranted) {
+    createMainWindow()
+  } else {
+    createSetupWindow()
+  }
+
   createPanelWindow()
 
   listenToKeyboardEvents()
@@ -47,9 +54,14 @@ app.whenReady().then(() => {
   })
 
   app.on("activate", function () {
-    if (!WINDOWS.get("main")) {
-      console.log("create main on activate")
-      createMainWindow()
+    if (accessibilityGranted) {
+      if (!WINDOWS.get("main")) {
+        createMainWindow()
+      }
+    } else {
+      if (!WINDOWS.get("setup")) {
+        createSetupWindow()
+      }
     }
   })
 

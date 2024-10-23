@@ -9,6 +9,7 @@ export type RecordingHistoryItem = {
 
 export type Config = {
   shortcut?: "hold-ctrl" | "ctrl-backslash"
+  hideDockIcon?: boolean
 
   sttProviderId?: STT_PROVIDER_ID
 

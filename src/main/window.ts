@@ -4,7 +4,6 @@ import {
   shell,
   screen,
   app,
-  webContents,
 } from "electron"
 import path from "path"
 import { getRendererHandlers } from "@egoist/tipc/main"
@@ -14,8 +13,9 @@ import {
   makeWindow,
 } from "@egoist/electron-panel-window"
 import { RendererHandlers } from "./renderer-handlers"
+import { configStore } from "./config"
 
-type WINDOW_ID = "main" | "panel"
+type WINDOW_ID = "main" | "panel" | "setup"
 
 export const WINDOWS = new Map<WINDOW_ID, BrowserWindow>()
 
@@ -66,7 +66,7 @@ function createBaseWindow({
     ? "assets://app"
     : process.env["ELECTRON_RENDERER_URL"]
 
-  win.loadURL(`${baseUrl}${url || ''}`)
+  win.loadURL(`${baseUrl}${url || ""}`)
 
   return win
 }
@@ -77,6 +77,36 @@ export function createMainWindow({ url }: { url?: string } = {}) {
     url,
     windowOptions: {
       titleBarStyle: "hiddenInset",
+    },
+  })
+
+  if (process.env.IS_MAC) {
+    win.on("close", () => {
+      if (configStore.get().hideDockIcon) {
+        app.setActivationPolicy("accessory")
+        app.dock.hide()
+      }
+    })
+
+    win.on("show", () => {
+      if (configStore.get().hideDockIcon && !app.dock.isVisible()) {
+        app.dock.show()
+      }
+    })
+  }
+
+  return win
+}
+
+export function createSetupWindow() {
+  const win = createBaseWindow({
+    id: "setup",
+    url: "/setup",
+    windowOptions: {
+      titleBarStyle: "hiddenInset",
+      width: 800,
+      height: 600,
+      resizable: false,
     },
   })
 
@@ -93,7 +123,6 @@ export function showMainWindow(url?: string) {
     }
   } else {
     createMainWindow({ url })
-
   }
 }
 
@@ -126,6 +155,8 @@ export function createPanelWindow() {
     url: "/panel",
     showWhenReady: false,
     windowOptions: {
+      hiddenInMissionControl: true,
+      skipTaskbar: true,
       closable: false,
       maximizable: false,
       frame: false,
@@ -167,7 +198,7 @@ export function showPanelWindow() {
 
 export function showPanelWindowAndStartRecording() {
   showPanelWindow()
-  getWindowRendererHandlers('panel')?.startRecording.send()
+  getWindowRendererHandlers("panel")?.startRecording.send()
 }
 
 export function makePanelWindowClosable() {
@@ -187,9 +218,7 @@ export const getWindowRendererHandlers = (id: WINDOW_ID) => {
 export const stopRecordingAndHidePanelWindow = () => {
   const win = WINDOWS.get("panel")
   if (win) {
-    getRendererHandlers<RendererHandlers>(
-      win.webContents,
-    ).stopRecording.send()
+    getRendererHandlers<RendererHandlers>(win.webContents).stopRecording.send()
 
     if (win.isVisible()) {
       win.hide()

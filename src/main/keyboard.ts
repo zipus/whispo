@@ -1,7 +1,6 @@
 import { uIOhook, UiohookKey } from "uiohook-napi"
 import {
   getWindowRendererHandlers,
-  showPanelWindow,
   showPanelWindowAndStartRecording,
   stopRecordingAndHidePanelWindow,
   WINDOWS,

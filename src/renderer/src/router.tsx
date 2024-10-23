@@ -35,6 +35,10 @@ export const router: ReturnType<typeof createBrowserRouter> =
       ],
     },
     {
+      path: "/setup",
+      lazy: () => import("./pages/setup"),
+    },
+    {
       path: "/panel",
       lazy: () => import("./pages/panel"),
     },

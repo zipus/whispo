@@ -17,6 +17,7 @@ import { RendererHandlers } from "./renderer-handlers"
 import { postProcessTranscript } from "./llm"
 import { state } from "./state"
 import { updateTrayIcon } from "./tray"
+import { isAccessibilityGranted } from "./utils"
 
 const t = tipc.create()
 
@@ -122,9 +123,7 @@ export const router = {
   }),
 
   isAccessibilityGranted: t.procedure.action(async () => {
-    if (process.platform === "win32") return true
-
-    return systemPreferences.isTrustedAccessibilityClient(false)
+    return isAccessibilityGranted()
   }),
 
   requestAccesssbilityAccess: t.procedure.action(async () => {

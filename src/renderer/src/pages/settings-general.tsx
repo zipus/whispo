@@ -58,8 +58,21 @@ export function Component() {
 
   return (
     <div className="grid gap-4">
+      <ControlGroup title="App">
+        <Control label="Hide Dock Icon" className="px-3">
+          <Switch
+            defaultChecked={configQuery.data.hideDockIcon}
+            onCheckedChange={(value) => {
+              saveConfig({
+                hideDockIcon: value,
+              })
+            }}
+          />
+        </Control>
+      </ControlGroup>
+
       <ControlGroup
-        title="Shortcut"
+        title="Shortcuts"
         endDescription={
           <div className="flex items-center gap-1">
             <div>
