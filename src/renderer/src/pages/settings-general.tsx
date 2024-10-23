@@ -58,7 +58,7 @@ export function Component() {
 
   return (
     <div className="grid gap-4">
-      <ControlGroup title="App">
+      {process.env.IS_MAC && <ControlGroup title="App">
         <Control label="Hide Dock Icon" className="px-3">
           <Switch
             defaultChecked={configQuery.data.hideDockIcon}
@@ -69,7 +69,7 @@ export function Component() {
             }}
           />
         </Control>
-      </ControlGroup>
+      </ControlGroup>}
 
       <ControlGroup
         title="Shortcuts"
