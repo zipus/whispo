@@ -22,7 +22,7 @@
     "build:linux": "electron-vite build && electron-builder --linux --config electron-builder.config.cjs",
     "release": "node ./scripts/release.js",
     "fix-pnpm-windows": "node ./scripts/fix-pnpm-windows.js",
-    "build-rdev": "mkdir -p resources/bin && cd whispo-rdev && cargo build -r && cp target/release/whispo-rdev ../resources/bin/whispo-rdev"
+    "build-rdev": "sh scripts/build-rdev.sh"
   },
   "dependencies": {
     "@egoist/electron-panel-window": "^8.0.3",
