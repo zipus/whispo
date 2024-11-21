@@ -10,10 +10,12 @@ import { state } from "./state"
 import { spawn } from "child_process"
 import path from "path"
 
-const rdevPath = path.join(
-  __dirname,
-  `../../resources/bin/whispo-rdev${process.env.IS_MAC ? "" : ".exe"}`,
-)
+const rdevPath = path
+  .join(
+    __dirname,
+    `../../resources/bin/whispo-rdev${process.env.IS_MAC ? "" : ".exe"}`,
+  )
+  .replace("app.asar", "app.asar.unpacked")
 
 type RdevEvent = {
   event_type: "KeyPress" | "KeyRelease"

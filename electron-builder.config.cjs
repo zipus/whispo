@@ -18,6 +18,7 @@ module.exports = {
     "!*.{js,cjs,mjs,ts}",
     "!components.json",
     "!.prettierrc",
+    '!whispo-rdev/*'
   ],
   asarUnpack: ["resources/**", "node_modules/**"],
   win: {
