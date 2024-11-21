@@ -11,9 +11,6 @@ importers:
       '@egoist/electron-panel-window':
         specifier: ^8.0.3
         version: 8.0.3
-      uiohook-napi:
-        specifier: 1.5.4
-        version: 1.5.4
     devDependencies:
       '@egoist/tailwindcss-icons':
         specifier: ^1.8.1
@@ -1984,10 +1981,6 @@ packages:
   node-fetch-native@1.6.4:
     resolution: {integrity: sha512-IhOigYzAKHd244OC0JIMIUrjzctirCmPkaIfhDeGcEETWof5zKYUW7e7MYvChGWh/4CJeXEgsRyGzuF334rOOQ==}
 
-  node-gyp-build@4.8.2:
-    resolution: {integrity: sha512-IRUxE4BVsHWXkV/SFOut4qTlagw2aM8T5/vnTsmrHJvVoKueJHRc/JaFND7QDDc61kLYUJ6qlZM3sqTSyx2dTw==}
-    hasBin: true
-
   node-releases@2.0.18:
     resolution: {integrity: sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==}
 
@@ -2560,10 +2553,6 @@ packages:
 
   ufo@1.5.4:
     resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
-
-  uiohook-napi@1.5.4:
-    resolution: {integrity: sha512-7vPVDNwgb6MwTgviA/dnF2MrW0X5xm76fAqaOAC3cEKkswqAZOPw1USu14Sr6383s5qhXegcJaR63CpJOPCNAg==}
-    engines: {node: '>= 16'}
 
   undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
@@ -4673,8 +4662,6 @@ snapshots:
 
   node-fetch-native@1.6.4: {}
 
-  node-gyp-build@4.8.2: {}
-
   node-releases@2.0.18: {}
 
   normalize-path@3.0.0: {}
@@ -5202,10 +5189,6 @@ snapshots:
   typescript@5.6.3: {}
 
   ufo@1.5.4: {}
-
-  uiohook-napi@1.5.4:
-    dependencies:
-      node-gyp-build: 4.8.2
 
   undici-types@6.19.8: {}
 

@@ -13,7 +13,7 @@ import path from "path"
 const rdevPath = path
   .join(
     __dirname,
-    `../../resources/bin/whispo-rdev${process.env.IS_MAC ? "" : ".exe"}`,
+    `../../resources/bin/whispo-rs${process.env.IS_MAC ? "" : ".exe"}`,
   )
   .replace("app.asar", "app.asar.unpacked")
 
@@ -22,6 +22,32 @@ type RdevEvent = {
   data: {
     key: "ControlLeft" | "BackSlash" | string
   }
+}
+
+export const writeText = (text: string) => {
+  return new Promise<void>((resolve, reject) => {
+    const child = spawn(rdevPath, ["write", text])
+
+    child.stdout.on("data", (data) => {
+      console.log(`stdout: ${data}`)
+    })
+
+    child.stderr.on("data", (data) => {
+      console.error(`stderr: ${data}`)
+    })
+
+    child.on("close", (code) => {
+      // writeText will trigger KeyPress event of the key A
+      // I don't know why
+      keysPressed.clear()
+
+      if (code === 0) {
+        resolve()
+      } else {
+        reject(new Error(`child process exited with code ${code}`))
+      }
+    })
+  })
 }
 
 const parseEvent = (event: any) => {
@@ -34,14 +60,15 @@ const parseEvent = (event: any) => {
   }
 }
 
+// keys that are currently pressed down without releasing
+// excluding ctrl
+// when other keys are pressed, pressing ctrl will not start recording
+const keysPressed = new Set<string>()
+
 export function listenToKeyboardEvents() {
   let isHoldingCtrlKey = false
   let startRecordingTimer: NodeJS.Timeout | undefined
   let isPressedCtrlKey = false
-
-  // keys that are currently pressed down without releasing
-  // excluding ctrl
-  const keysPressed = new Set<string>()
 
   if (process.env.IS_MAC) {
     if (!systemPreferences.isTrustedAccessibilityClient(false)) {
@@ -57,10 +84,6 @@ export function listenToKeyboardEvents() {
   }
 
   const handleEvent = (e: RdevEvent) => {
-    if (import.meta.env.DEV) {
-      console.log(e)
-    }
-
     if (e.event_type === "KeyPress") {
       if (e.data.key === "ControlLeft") {
         isPressedCtrlKey = true
@@ -82,7 +105,9 @@ export function listenToKeyboardEvents() {
       } else {
         if (e.data.key === "ControlLeft") {
           if (keysPressed.size > 0) {
-            console.log("ignore ctrl because other keys are pressed")
+            console.log("ignore ctrl because other keys are pressed", [
+              ...keysPressed,
+            ])
             return
           }
 
@@ -111,6 +136,8 @@ export function listenToKeyboardEvents() {
         }
       }
     } else if (e.event_type === "KeyRelease") {
+      keysPressed.delete(e.data.key)
+
       if (e.data.key === "ControlLeft") {
         isPressedCtrlKey = false
       }
@@ -118,8 +145,6 @@ export function listenToKeyboardEvents() {
       if (configStore.get().shortcut === "ctrl-slash") return
 
       cancelRecordingTimer()
-
-      keysPressed.delete(e.data.key)
 
       if (e.data.key === "ControlLeft") {
         console.log("release ctrl")
@@ -134,9 +159,13 @@ export function listenToKeyboardEvents() {
     }
   }
 
-  const child = spawn(rdevPath, {})
+  const child = spawn(rdevPath, ["listen"], {})
 
   child.stdout.on("data", (data) => {
+    if (import.meta.env.DEV) {
+      console.log(String(data))
+    }
+
     const event = parseEvent(data)
     if (!event) return
 

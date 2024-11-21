@@ -67,15 +67,33 @@ fn deal_event_to_json(event: Event) -> RdevEvent {
     jsonify_event
 }
 
-fn main() {
-    if let Err(error) = listen(move |event| match event.event_type {
-        EventType::KeyPress(_) | EventType::KeyRelease(_) => {
-            let event = deal_event_to_json(event);
-            println!("{}", serde_json::to_string(&event).unwrap());
-        }
+fn write_text(text: &str) {
+    use enigo::{Enigo, Keyboard, Settings};
 
-        _ => {}
-    }) {
-        println!("!error: {:?}", error);
+    let mut enigo = Enigo::new(&Settings::default()).unwrap();
+
+    // write text
+    enigo.text(text).unwrap();
+}
+
+fn main() {
+    let args: Vec<String> = std::env::args().collect();
+
+    if args.len() > 1 && args[1] == "listen" {
+        if let Err(error) = listen(move |event| match event.event_type {
+            EventType::KeyPress(_) | EventType::KeyRelease(_) => {
+                let event = deal_event_to_json(event);
+                println!("{}", serde_json::to_string(&event).unwrap());
+            }
+
+            _ => {}
+        }) {
+            println!("!error: {:?}", error);
+        }
+    }
+
+    if args.len() > 2 && args[1] == "write" {
+        let text = args[2].clone();
+        write_text(text.as_str());
     }
 }

@@ -18,7 +18,7 @@ module.exports = {
     "!*.{js,cjs,mjs,ts}",
     "!components.json",
     "!.prettierrc",
-    '!whispo-rdev/*'
+    '!whispo-rs/*'
   ],
   asarUnpack: ["resources/**", "node_modules/**"],
   win: {
@@ -31,7 +31,7 @@ module.exports = {
     createDesktopShortcut: "always",
   },
   mac: {
-    binaries: [`resources/bin/whispo-rdev${process.platform === 'darwin' ? '' : '.exe'}`],
+    binaries: [`resources/bin/whispo-rs${process.platform === 'darwin' ? '' : '.exe'}`],
     artifactName: "${productName}-${version}-${arch}.${ext}",
     entitlementsInherit: "build/entitlements.mac.plist",
     extendInfo: [

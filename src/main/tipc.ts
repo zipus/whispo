@@ -10,7 +10,6 @@ import {
   dialog,
 } from "electron"
 import path from "path"
-import { uIOhook, UiohookKey } from "uiohook-napi"
 import { configStore, recordingsFolder } from "./config"
 import { Config, RecordingHistoryItem } from "../shared/types"
 import { RendererHandlers } from "./renderer-handlers"
@@ -18,6 +17,7 @@ import { postProcessTranscript } from "./llm"
 import { state } from "./state"
 import { updateTrayIcon } from "./tray"
 import { isAccessibilityGranted } from "./utils"
+import { writeText } from "./keyboard"
 
 const t = tipc.create()
 
@@ -220,10 +220,9 @@ export const router = {
 
       // paste
       clipboard.writeText(transcript)
-      uIOhook.keyTap(
-        UiohookKey.V,
-        process.env.IS_MAC ? [UiohookKey.Meta] : [UiohookKey.Ctrl],
-      )
+      if (isAccessibilityGranted()) {
+        await writeText(transcript)
+      }
     }),
 
   getRecordingHistory: t.procedure.action(async () => getRecordingHistory()),

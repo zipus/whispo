@@ -1,5 +1,5 @@
 [package]
-name = "whispo-rdev"
+name = "whispo-rs"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,3 +7,4 @@ edition = "2021"
 rdev = "0.5.3"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+enigo = "0.3.0"

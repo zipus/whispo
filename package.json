@@ -14,7 +14,7 @@
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
     "start": "electron-vite preview",
     "dev": "electron-vite dev --watch",
-    "build": "npm run typecheck && electron-vite build && npm run build-rdev",
+    "build": "npm run typecheck && electron-vite build && npm run build-rs",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win --config electron-builder.config.cjs",
@@ -22,11 +22,10 @@
     "build:linux": "electron-vite build && electron-builder --linux --config electron-builder.config.cjs",
     "release": "node ./scripts/release.js",
     "fix-pnpm-windows": "node ./scripts/fix-pnpm-windows.js",
-    "build-rdev": "sh scripts/build-rdev.sh"
+    "build-rs": "sh scripts/build-rs.sh"
   },
   "dependencies": {
-    "@egoist/electron-panel-window": "^8.0.3",
-    "uiohook-napi": "1.5.4"
+    "@egoist/electron-panel-window": "^8.0.3"
   },
   "devDependencies": {
     "@radix-ui/react-switch": "^1.1.1",
