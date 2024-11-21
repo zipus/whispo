@@ -58,18 +58,20 @@ export function Component() {
 
   return (
     <div className="grid gap-4">
-      {process.env.IS_MAC && <ControlGroup title="App">
-        <Control label="Hide Dock Icon" className="px-3">
-          <Switch
-            defaultChecked={configQuery.data.hideDockIcon}
-            onCheckedChange={(value) => {
-              saveConfig({
-                hideDockIcon: value,
-              })
-            }}
-          />
-        </Control>
-      </ControlGroup>}
+      {process.env.IS_MAC && (
+        <ControlGroup title="App">
+          <Control label="Hide Dock Icon" className="px-3">
+            <Switch
+              defaultChecked={configQuery.data.hideDockIcon}
+              onCheckedChange={(value) => {
+                saveConfig({
+                  hideDockIcon: value,
+                })
+              }}
+            />
+          </Control>
+        </ControlGroup>
+      )}
 
       <ControlGroup
         title="Shortcuts"
@@ -109,7 +111,7 @@ export function Component() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="hold-ctrl">Hold Ctrl</SelectItem>
-              <SelectItem value="ctrl-backslash">Ctrl+{"\\"}</SelectItem>
+              <SelectItem value="ctrl-slash">Ctrl+{"/"}</SelectItem>
             </SelectContent>
           </Select>
         </Control>

@@ -30,6 +30,7 @@ module.exports = {
     createDesktopShortcut: "always",
   },
   mac: {
+    binaries: [`resources/bin/whispo-rdev${process.platform === 'darwin' ? '' : '.exe'}`],
     artifactName: "${productName}-${version}-${arch}.${ext}",
     entitlementsInherit: "build/entitlements.mac.plist",
     extendInfo: [

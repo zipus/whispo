@@ -15,8 +15,8 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       uiohook-napi:
-        specifier: 1.5.2
-        version: 1.5.2
+        specifier: 1.5.4
+        version: 1.5.4
     devDependencies:
       '@egoist/tailwindcss-icons':
         specifier: ^1.8.1
@@ -2561,8 +2561,8 @@ packages:
   ufo@1.5.4:
     resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
 
-  uiohook-napi@1.5.2:
-    resolution: {integrity: sha512-XmxEQpgWZerYwrhRk5oBbHSO9pjeEKF7cMG6e+Ak1j5MW7xQUvl/P+qaPAYDfbJ1JsT/E6ontbClBBSy5Z3C0g==}
+  uiohook-napi@1.5.4:
+    resolution: {integrity: sha512-7vPVDNwgb6MwTgviA/dnF2MrW0X5xm76fAqaOAC3cEKkswqAZOPw1USu14Sr6383s5qhXegcJaR63CpJOPCNAg==}
     engines: {node: '>= 16'}
 
   undici-types@6.19.8:
@@ -5203,7 +5203,7 @@ snapshots:
 
   ufo@1.5.4: {}
 
-  uiohook-napi@1.5.2:
+  uiohook-napi@1.5.4:
     dependencies:
       node-gyp-build: 4.8.2
 
