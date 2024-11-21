@@ -80,7 +80,7 @@ export function Component() {
             <div>
               {shortcut === "hold-ctrl"
                 ? "Hold Ctrl key to record, release it to finish recording"
-                : "Press Ctrl+\\ to start and finish recording"}
+                : "Press Ctrl+/ to start and finish recording"}
             </div>
             <TooltipProvider disableHoverableContent delayDuration={0}>
               <Tooltip>
