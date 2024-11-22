@@ -22,6 +22,9 @@ type RdevEvent = {
   data: {
     key: "ControlLeft" | "BackSlash" | string
   }
+  time: {
+    secs_since_epoch: number
+  }
 }
 
 export const writeText = (text: string) => {
@@ -63,7 +66,20 @@ const parseEvent = (event: any) => {
 // keys that are currently pressed down without releasing
 // excluding ctrl
 // when other keys are pressed, pressing ctrl will not start recording
-const keysPressed = new Set<string>()
+const keysPressed = new Map<string, number>()
+
+const hasRecentKeyPress = () => {
+  if (keysPressed.size === 0) return false
+
+  const now = Date.now() / 1000
+  return [...keysPressed.values()].some((time) => {
+    // 10 seconds
+    // for some weird reasons sometime KeyRelease event is missing for some keys
+    // so they stay in the map
+    // therefore we have to check if the key was pressed in the last 10 seconds
+    return now - time < 10
+  })
+}
 
 export function listenToKeyboardEvents() {
   let isHoldingCtrlKey = false
@@ -104,9 +120,9 @@ export function listenToKeyboardEvents() {
         }
       } else {
         if (e.data.key === "ControlLeft") {
-          if (keysPressed.size > 0) {
+          if (hasRecentKeyPress()) {
             console.log("ignore ctrl because other keys are pressed", [
-              ...keysPressed,
+              ...keysPressed.keys(),
             ])
             return
           }
@@ -124,7 +140,7 @@ export function listenToKeyboardEvents() {
             showPanelWindowAndStartRecording()
           }, 800)
         } else {
-          keysPressed.add(e.data.key)
+          keysPressed.set(e.data.key, e.time.secs_since_epoch)
           cancelRecordingTimer()
 
           // when holding ctrl key, pressing any other key will stop recording
