@@ -26,7 +26,7 @@ https://github.com/user-attachments/assets/2344a817-f36c-42b0-9ebc-cdd6e926b7a0
 
 ## Linux
 
-The AppImage works on Ubuntu and Linux Mint. Launch it and use `F8` or your configured shortcut to start recording. Settings can be accessed from the tray icon.
+The AppImage works on Ubuntu and Linux Mint. Launch it and use `F8` or your configured shortcut to start recording. Settings can be accessed from the tray icon. From this release, global shortcuts also work under Wayland sessions via the desktop portal.
 
 ## License
 
