@@ -100,6 +100,22 @@ export function listenToKeyboardEvents() {
   }
 
   const handleEvent = (e: RdevEvent) => {
+    const shortcut = configStore.get().shortcut
+
+    if (shortcut === "f8") {
+      if (e.event_type === "KeyPress") {
+        if (e.data.key === "F8") {
+          getWindowRendererHandlers("panel")?.startOrFinishRecording.send()
+        }
+
+        if (e.data.key === "Escape" && state.isRecording) {
+          stopRecordingAndHidePanelWindow()
+        }
+      }
+
+      return
+    }
+
     if (e.event_type === "KeyPress") {
       if (e.data.key === "ControlLeft") {
         isPressedCtrlKey = true
