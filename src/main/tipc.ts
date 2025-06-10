@@ -127,9 +127,14 @@ export const router = {
   }),
 
   requestAccesssbilityAccess: t.procedure.action(async () => {
-    if (process.platform === "win32") return true
+    if (process.platform === "win32" || process.platform === "linux") return true
 
-    return systemPreferences.isTrustedAccessibilityClient(true)
+    const fn = (systemPreferences as any).isTrustedAccessibilityClient
+    if (typeof fn === "function") {
+      return fn(true)
+    }
+
+    return true
   }),
 
   requestMicrophoneAccess: t.procedure.action(async () => {

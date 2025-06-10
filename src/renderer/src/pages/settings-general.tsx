@@ -112,6 +112,7 @@ export function Component() {
             <SelectContent>
               <SelectItem value="hold-ctrl">Hold Ctrl</SelectItem>
               <SelectItem value="ctrl-slash">Ctrl+{"/"}</SelectItem>
+              <SelectItem value="f8">F8</SelectItem>
             </SelectContent>
           </Select>
         </Control>
