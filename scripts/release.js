@@ -27,8 +27,12 @@ if (process.platform === "darwin") {
   run(`pnpm build:mac --arm64 --publish always`, {
     cwd: desktopDir,
   })
-} else {
+} else if (process.platform === "win32") {
   run(`pnpm build:win --publish always`, {
+    cwd: desktopDir,
+  })
+} else {
+  run(`pnpm build:linux --publish always`, {
     cwd: desktopDir,
   })
 }

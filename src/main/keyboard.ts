@@ -13,7 +13,7 @@ import path from "path"
 const rdevPath = path
   .join(
     __dirname,
-    `../../resources/bin/whispo-rs${process.env.IS_MAC ? "" : ".exe"}`,
+    `../../resources/bin/whispo-rs${process.platform === "win32" ? ".exe" : ""}`,
   )
   .replace("app.asar", "app.asar.unpacked")
 
